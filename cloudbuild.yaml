@@ -1,0 +1,14 @@
+substitutions:
+  _NAME: builder
+
+steps:
+- name: gcr.io/cloud-builders/docker
+  args: ["docker", "build", "-t", "subiz/builder:$TAGNAME", "."]
+
+- name: gcr.io/cloud-builders/docker
+  entrypoint: sh
+  args:
+  - -c
+  - |
+    docker login -u $_DOCKER_USERNAME -p $_DOCKER_PASSWORD
+    docker push subiz/builder:$TAGNAME
